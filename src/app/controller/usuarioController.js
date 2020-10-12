@@ -22,6 +22,18 @@ class UsuarioController {
     };
   }
 
+  signin() {
+    return async (req, res) => {
+      try {
+        const usuario = await Usuario.findByCredentials(req.body.email, req.body.senha);
+        console.log(usuario);
+        res.status(200).json(usuario);
+      } catch (err) {
+        res.status(400).json(err);
+      }
+    }
+  }
+
   usuarios() {
     return async (req, res) => {
       try {

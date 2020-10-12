@@ -11,6 +11,7 @@ const usuarioSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
     required: [true, 'Necessário informar um email'],
     trim: true,
     lowercase: true,
@@ -30,6 +31,16 @@ const usuarioSchema = new mongoose.Schema({
     },
   },
 });
+
+usuarioSchema.statics.findByCredentials = async (email, senha) => {
+  const usuario = await Usuario.findOne({ email });
+  if (!usuario) throw new Error('Usuário e/ou senha inválidos');
+
+  const isMatch = await bcryptjs.compare(senha, usuario.senha);
+  if (!isMatch) throw new Error('Usuário e/ou senha inválidos');
+
+  return usuario;
+};
 
 usuarioSchema.pre('save', async function (next) {
   const user = this;
