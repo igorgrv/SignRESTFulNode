@@ -80,10 +80,7 @@ usuarioSchema.statics.findByCredentials = async (email, senha) => {
 
 usuarioSchema.pre('save', async function (next) {
   const user = this;
-
   user.senha = await bcryptjs.hash(user.senha, 8);
-  console.log(user.senha);
-
   next();
 });
 
