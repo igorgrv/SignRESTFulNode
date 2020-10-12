@@ -17,7 +17,7 @@ class UsuarioController {
         const usuarioEmail = await Usuario.findByEmail(req.body.email);
         if (usuarioEmail) res.status(400).json({ mensagem: 'E-mail já existente' });
         await usuario.save();
-        res.status(201).json(usuario);
+        res.status(201).json({ usuario: usuario.dto() });
       } catch (err) {
         res.status(400).json({ mensagem: 'mensagem de erro' });
       }
@@ -29,7 +29,7 @@ class UsuarioController {
       try {
         const usuario = await Usuario.findByCredentials(req.body.email, req.body.senha);
         const token = await usuario.generateAuthToken();
-        res.status(200).json({ usuario, token });
+        res.status(200).json({ usuario: usuario.dto(), token });
       } catch (err) {
         res.status(400).json({ mensagem: 'Usuário e/ou senha inválidos' });
       }
@@ -40,7 +40,7 @@ class UsuarioController {
     return async (req, res) => {
       try {
         const usuarios = await Usuario.find({});
-        res.status(200).json(usuarios);
+        res.status(200).json({ usuarios });
       } catch (err) {
         res.status(500).json({ mensagem: 'mensagem de erro' });
       }
@@ -55,7 +55,7 @@ class UsuarioController {
         if (!usuario) {
           res.status(500).send({ mensagem: 'usuário não encontrado' });
         }
-        res.status(200).json(usuario);
+        res.status(200).json({ usuario: usuario.dto() });
       } catch (err) {
         res.status(500).json({ mensagem: 'mensagem de erro' });
       }

@@ -32,7 +32,29 @@ const usuarioSchema = new mongoose.Schema({
       }
     },
   },
+  telefones: [
+    {
+      numero: {
+        type: Number,
+        trim: true,
+        required: [true, 'Necessário informar uma senha'],
+      },
+      ddd: {
+        type: Number,
+        trim: true,
+        required: [true, 'Necessário informar uma senha'],
+      },
+    },
+  ],
 });
+usuarioSchema.methods.dto = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.__v;
+
+  return userObject;
+}
 
 usuarioSchema.methods.generateAuthToken = async function () {
   const user = this;
