@@ -11,34 +11,40 @@ class UsuarioController {
   }
 
   signup() {
-    return (req, res) => {
+    return async (req, res) => {
       const usuario = new Usuario(req.body);
-      usuario
-        .save()
-        .then(() => res.status(201).json(usuario))
-        .catch((err) => res.status(400).json(err));
+      try {
+        await usuario.save();
+        res.status(201).json(usuario);
+      } catch (err) {
+        res.status(400).json(err);
+      }
     };
   }
 
   usuarios() {
-    return (req, res) => {
-      Usuario.find({})
-        .then((usuarios) => res.status(200).json(usuarios))
-        .catch((err) => res.status(500).json(err));
+    return async (req, res) => {
+      try {
+        const usuarios = await Usuario.find({});
+        res.status(200).json(usuarios);
+      } catch (err) {
+        res.status(500).json(err);
+      }
     };
   }
 
   usuario() {
-    return (req, res) => {
+    return async (req, res) => {
       const _id = req.params.id;
-      Usuario.findById(_id)
-        .then((usuario) => {
-          if (!usuario) {
-            res.status(500).send('Usuário não encontrado');
-          }
-          res.status(200).json(usuario);
-        })
-        .catch((err) => res.status(500).json(err));
+      try {
+        const usuario = await Usuario.findById(_id);
+        if (!usuario) {
+          res.status(500).send('Usuário não encontrado');
+        }
+        res.status(200).json(usuario);
+      } catch (err) {
+        res.status(500).json(err);
+      }
     };
   }
 }
