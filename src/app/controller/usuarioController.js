@@ -14,10 +14,12 @@ class UsuarioController {
     return async (req, res) => {
       const usuario = new Usuario(req.body);
       try {
+        const usuarioEmail = await Usuario.findByEmail(req.body.email);
+        if (usuarioEmail) res.status(400).json({ mensagem: 'E-mail já existente' });
         await usuario.save();
         res.status(201).json(usuario);
       } catch (err) {
-        res.status(400).json(err);
+        res.status(400).json({ mensagem: 'mensagem de erro' });
       }
     };
   }
@@ -26,12 +28,12 @@ class UsuarioController {
     return async (req, res) => {
       try {
         const usuario = await Usuario.findByCredentials(req.body.email, req.body.senha);
-        console.log(usuario);
-        res.status(200).json(usuario);
+        const token = await usuario.generateAuthToken();
+        res.status(200).json({ usuario, token });
       } catch (err) {
-        res.status(400).json(err);
+        res.status(400).json({ mensagem: 'Usuário e/ou senha inválidos' });
       }
-    }
+    };
   }
 
   usuarios() {
@@ -40,7 +42,7 @@ class UsuarioController {
         const usuarios = await Usuario.find({});
         res.status(200).json(usuarios);
       } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ mensagem: 'mensagem de erro' });
       }
     };
   }
@@ -51,11 +53,11 @@ class UsuarioController {
       try {
         const usuario = await Usuario.findById(_id);
         if (!usuario) {
-          res.status(500).send('Usuário não encontrado');
+          res.status(500).send({ mensagem: 'usuário não encontrado' });
         }
         res.status(200).json(usuario);
       } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ mensagem: 'mensagem de erro' });
       }
     };
   }
