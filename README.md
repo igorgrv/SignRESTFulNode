@@ -12,7 +12,7 @@ Neste projeto foi utilizado:
 Para acessar a documentação da API:
 
 ```
-https://signinup-java-rest.herokuapp.com/swagger-ui.html
+https://signinup-rest-node.herokuapp.com/api-docs
 ```
 
 ## Getting Started
@@ -39,7 +39,7 @@ Os métodos **públicos**, são:
   }
   ```
 
-* `/auth` -> [**POST**] Retorna um Token **bearer** para ser passado aos métodos “privado”;
+* `/sign`-> [**POST**] Retorna um Token **bearer** para ser passado aos métodos “privado”;
 
   ```json
   {

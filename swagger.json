@@ -5,7 +5,7 @@
     "title": "Swagger Sign Accenture",
     "description": "Desafio do Sign-in Sign-up Accenture"
   },
-  "host": "localhost:3000",
+  "host": "signinup-rest-node.herokuapp.com",
   "basePath": "/",
   "tags": [
     {
@@ -13,10 +13,21 @@
       "description": "API para usuários do sistema"
     }
   ],
-  "schemes": ["http"],
+  "schemes": ["https"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Usuario"],
+        "summary": "Status do servidor",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/signup": {
       "post": {
         "tags": ["Usuario"],
@@ -62,6 +73,34 @@
             "description": "Login efetuado com sucesso",
             "schema": {
               "$ref": "#/definitions/UsuarioSignToken"
+            }
+          }
+        }
+      }
+    },
+    "/usuarios": {
+      "get": {
+        "tags": ["Usuario"],
+        "summary": "Get all usuarios",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UsuarioSignup"
+            }
+          }
+        }
+      }
+    },
+    "/usuario/:id": {
+      "get": {
+        "tags": ["Usuario"],
+        "summary": "Encontre um usuário em específico",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UsuarioSignup"
             }
           }
         }
