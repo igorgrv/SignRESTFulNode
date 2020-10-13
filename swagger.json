@@ -1,0 +1,145 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger Sign Accenture",
+    "description": "Desafio do Sign-in Sign-up Accenture"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Usuario",
+      "description": "API para usuários do sistema"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": ["Usuario"],
+        "summary": "Adicione um usuário no sistema",
+        "parameters": [
+          {
+            "name": "usuario",
+            "in": "body",
+            "description": "Parâmetros para ciração do usuário",
+            "schema": {
+              "$ref": "#/definitions/UsuarioSignup"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/UsuarioSignup"
+            }
+          }
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": ["Usuario"],
+        "summary": "Realize o login",
+        "parameters": [
+          {
+            "name": "usuario",
+            "in": "body",
+            "description": "Parâmetros para fazer o login",
+            "schema": {
+              "$ref": "#/definitions/UsuarioSignin"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Login efetuado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/UsuarioSignToken"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UsuarioSignup": {
+      "required": ["nome", "email", "senha", "telefones"],
+      "properties": {
+        "nome": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "senha": {
+          "type": "string"
+        },
+        "telefone": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "number"
+              },
+              "ddd": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UsuarioSignin": {
+      "required": ["nome", "email"],
+      "properties": {
+        "nome": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UsuarioSignToken": {
+      "required": ["nome", "email", "senha", "telefones", "token"],
+      "properties": {
+        "nome": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "senha": {
+          "type": "string"
+        },
+        "telefone": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "numero": {
+                "type": "number"
+              },
+              "ddd": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
